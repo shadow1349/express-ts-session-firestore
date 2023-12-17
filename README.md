@@ -11,11 +11,13 @@ This is an extension to the Store class in [Express TS Session](https://github.c
 ```typescript
 import { ExpressTSSession, Cookie } from "express-ts-sesion";
 import express from 'express';
+import FirestoreStore from 'express-ts-session-firestore';
+import { Firestore } from '@google-cloud/firestore';
 
 const sessionMiddleware = new ExpressTSSession({
     name: "my-app"
     secret: "mysecret",
-    
+
     cookie: new Cookie({
         maxAge: 1000 * 60 * 60 * 24 * 7,
         secure: false,
@@ -23,7 +25,9 @@ const sessionMiddleware = new ExpressTSSession({
         path: "/",
         sameSite: false,
         signed: true,
-    })
+    }),
+
+    store: new FirestoreStore({ database: new Firestore() }),
 });
 
 const app = express();
