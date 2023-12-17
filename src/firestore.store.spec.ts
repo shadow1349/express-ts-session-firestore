@@ -87,7 +87,6 @@ describe("firestore.store", () => {
   });
 
   it("should be defined", () => {
-    console.log(fakeDatabaseValues);
     expect(store).toBeDefined();
   });
 
