@@ -1,7 +1,10 @@
 node_modules
 src
 tsconfig.json
+tsconfig.spec.json
 tslint.json
 .circleci
 config.yml
 coverage
+README.md
+.eslintrc.json
