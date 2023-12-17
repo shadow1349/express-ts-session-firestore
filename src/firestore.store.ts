@@ -1,4 +1,5 @@
 import { Firestore } from "@google-cloud/firestore";
+import { Request } from "express";
 import { CookieModel, SessionDataModel, Store } from "express-ts-session";
 
 export interface FirestoreStoreOptions {
@@ -36,7 +37,8 @@ export class FirestoreStore extends Store {
     this.db = options.database;
 
     if (options.collection) this.collection = options.collection;
-    if (options.merge) this.merge = options.merge;
+    // check for undefined because merge could be false and this wouldn't run
+    if (options.merge !== undefined) this.merge = options.merge;
   }
 
   override async get(sid: string) {
@@ -78,6 +80,12 @@ export class FirestoreStore extends Store {
     return;
   }
 
+  /**
+   * This will wipe out all the documents in your sesson collection. Be careful running this on a large collection
+   * as it will delete all the data in the collection and call a delete for each document. This could become costly if you
+   * do it too often.
+   * @returns {Promise<void>}
+   */
   async clear() {
     const batch = this.db.batch();
     const snapshot = await this.db.collection(this.collection).get();
