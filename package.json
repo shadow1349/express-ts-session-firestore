@@ -1,6 +1,6 @@
 {
   "name": "express-ts-session-firestore",
-  "version": "0.0.0",
+  "version": "0.0.1-beta.2",
   "description": "Firestore session storage class for Express TS Session",
   "main": "dist/index.js",
   "scripts": {
