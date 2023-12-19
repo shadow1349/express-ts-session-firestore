@@ -100,17 +100,4 @@ export class FirestoreStore extends Store {
 
     return;
   }
-
-  /**
-   * This will return an array of all the sessions in the collection. Be careful running this on a large collection
-   * as it will return all the data in the collection and call a read for each document. This could become costly if you
-   * do it too often.
-   * @returns {Promise<SessionDataModel[]>} All session data in the collection.
-   */
-  async all() {
-    const snapshot = await this.db.collection(this.collection).get();
-    const data = snapshot.docs.map((doc) => doc.data() as SessionDataModel);
-
-    return data;
-  }
 }

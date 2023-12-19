@@ -218,15 +218,4 @@ describe("firestore.store", () => {
     await store.set(sid, data);
     expect(store.get(sid)).resolves.toEqual(data);
   });
-
-  it("should get all sessions", async () => {
-    const data = await store.all();
-    expect(data.length).toBe(100);
-  });
-
-  it("should clear database", async () => {
-    await store.clear();
-    const data = await store.all();
-    expect(data).toEqual([]);
-  });
 });
