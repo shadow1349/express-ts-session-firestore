@@ -1,6 +1,5 @@
 import { Firestore } from "@google-cloud/firestore";
-import { Request } from "express";
-import { CookieModel, SessionDataModel, Store } from "express-ts-session";
+import { SessionDataModel, StoreModel } from "express-ts-session";
 
 export interface FirestoreStoreOptions {
   database: Firestore;
@@ -22,18 +21,12 @@ export interface FirestoreStoreOptions {
  * Will handle storing, retrieving, and destroying sessions session data Firestore.
  * @class FirestoreStore
  */
-export class FirestoreStore extends Store {
+export class FirestoreStore implements StoreModel {
   private db: Firestore;
   private collection = "sessions";
   private merge = true;
 
-  constructor(
-    options: FirestoreStoreOptions,
-    genid?: (req: Request) => string | Promise<string>,
-    cookieOptions: Partial<CookieModel> = {}
-  ) {
-    super(genid, cookieOptions);
-
+  constructor(options: FirestoreStoreOptions) {
     this.db = options.database;
 
     if (options.collection) this.collection = options.collection;
@@ -41,7 +34,7 @@ export class FirestoreStore extends Store {
     if (options.merge !== undefined) this.merge = options.merge;
   }
 
-  override async get(sid: string) {
+  async get(sid: string) {
     const data = this.db
       .collection(this.collection)
       .doc(sid)
@@ -56,7 +49,7 @@ export class FirestoreStore extends Store {
     return data;
   }
 
-  override async set(sid: string, sess: SessionDataModel) {
+  async set(sid: string, sess: SessionDataModel) {
     await this.db
       .collection(this.collection)
       .doc(sid)
@@ -68,7 +61,7 @@ export class FirestoreStore extends Store {
     return;
   }
 
-  override async destroy(sid: string) {
+  async destroy(sid: string) {
     await this.db
       .collection(this.collection)
       .doc(sid)

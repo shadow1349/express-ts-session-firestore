@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "@google-cloud/firestore": "^7.1.0",
-    "express-ts-session": "^0.0.1-beta.2"
+    "express-ts-session": "^0.0.1-beta.5"
   }
 }
